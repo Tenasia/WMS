@@ -2,201 +2,114 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Dashboard</title>
-    <link rel="shortcut icon" href="./images/logo.png">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <title>TechSolutions - Web & App Development for Medium-Sized Businesses</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="./CSS/style.css" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <div class="logo" title="University Management System">
-            <img src="./images/logo.png" alt="">
-            <h2>U<span class="danger">M</span>S</h2>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">TechSolutions</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
+                    <li class="nav-item"><a class="nav-link" href="portfolio.html">Portfolio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                </ul>
+            </div>
         </div>
-        <div class="navbar">
-            <a href="index.html" class="active">
-                <span class="material-icons-sharp">home</span>
-                <h3>Home</h3>
-            </a>
-            <a href="timetable.html" onclick="timeTableAll()">
-                <span class="material-icons-sharp">today</span>
-                <h3>Time Table</h3>
-            </a> 
-            <a href="exam.html">
-                <span class="material-icons-sharp">grid_view</span>
-                <h3>Examination</h3>
-            </a>
-            <a href="password.html">
-                <span class="material-icons-sharp">password</span>
-                <h3>Change Password</h3>
-            </a>
-            <a href="#">
-                <span class="material-icons-sharp" onclick="">logout</span>
-                <h3>Logout</h3>
-            </a>
-        </div>
-        <div id="profile-btn">
-            <span class="material-icons-sharp">person</span>
-        </div>
-        <div class="theme-toggler">
-            <span class="material-icons-sharp active">light_mode</span>
-            <span class="material-icons-sharp">dark_mode</span>
-        </div>
-        
-    </header>
-    <div class="container">
-        <aside>
-            <div class="profile">
-                <div class="top">
-                    <div class="profile-photo">
-                        <img src="./images/profile-1.jpg" alt="">
-                    </div>
-                    <div class="info">
-                        <p>Hey, <b>Alex</b> </p>
-                        <small class="text-muted">12102030</small>
-                    </div>
+    </nav>
+
+    <section id="home" class="section bg-light">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="display-4">Welcome to TechSolutions</h1>
+                    <p class="lead">We develop cutting-edge websites and applications for medium-sized businesses.</p>
+                    <a href="contact.html" class="btn btn-primary btn-lg">Get Started</a>
                 </div>
-                <div class="about">
-                    <h5>Course</h5>
-                    <p>BTech. Computer Science & Engineering</p>
-                    <h5>DOB</h5>
-                    <p>29-Feb-2020</p>
-                    <h5>Contact</h5>
-                    <p>1234567890</p>
-                    <h5>Email</h5>
-                    <p>unknown@gmail.com</p>
-                    <h5>Address</h5>
-                    <p>Ghost town Road, New York, America</p>
+                <div class="col-lg-6">
+                    <img src="https://via.placeholder.com/600x400" alt="TechSolutions" class="img-fluid rounded">
                 </div>
             </div>
-        </aside>
+        </div>
+    </section>
 
-        <main>
-            <h1>Attendance</h1>
-            <div class="subjects">
-                <div class="eg">
-                    <span class="material-icons-sharp">architecture</span>
-                    <h3>Engineering Graphics</h3>
-                    <h2>12/14</h2>
-                    <div class="progress">
-                        <svg><circle cx="38" cy="38" r="36"></circle></svg>
-                        <div class="number"><p>86%</p></div>
+    <section class="section">
+        <div class="container">
+            <h2 class="text-center mb-5">Why Choose TechSolutions?</h2>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <i class="bi bi-gear-fill text-primary mb-3" style="font-size: 2rem;"></i>
+                            <h5 class="card-title">Customized Solutions</h5>
+                            <p class="card-text">We tailor our services to meet your unique business needs and goals.</p>
+                        </div>
                     </div>
-                    <small class="text-muted">Last 24 Hours</small>
                 </div>
-                <div class="mth">
-                    <span class="material-icons-sharp">functions</span>
-                    <h3>Mathematical Engineering</h3>
-                    <h2>27/29</h2>
-                    <div class="progress">
-                        <svg><circle cx="38" cy="38" r="36"></circle></svg>
-                        <div class="number"><p>93%</p></div>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <i class="bi bi-people-fill text-primary mb-3" style="font-size: 2rem;"></i>
+                            <h5 class="card-title">Expert Team</h5>
+                            <p class="card-text">Our skilled professionals bring years of experience to every project.</p>
+                        </div>
                     </div>
-                    <small class="text-muted">Last 24 Hours</small>
                 </div>
-                <div class="cs">
-                    <span class="material-icons-sharp">computer</span>
-                    <h3>Computer Architecture</h3>
-                    <h2>27/30</h2>
-                    <div class="progress">
-                        <svg><circle cx="38" cy="38" r="36"></circle></svg>
-                        <div class="number"><p>81%</p></div>
-                    </div>
-                    <small class="text-muted">Last 24 Hours</small>
-                </div>
-                <div class="cg">
-                    <span class="material-icons-sharp">dns</span>
-                    <h3>Database Management</h3>
-                    <h2>24/25</h2>
-                    <div class="progress">
-                        <svg><circle cx="38" cy="38" r="36"></circle></svg>
-                        <div class="number"><p>96%</p></div>
-                    </div>
-                    <small class="text-muted">Last 24 Hours</small>
-                </div>
-                <div class="net">
-                    <span class="material-icons-sharp">router</span>
-                    <h3>Network Security</h3>
-                    <h2>25/27</h2>
-                    <div class="progress">
-                        <svg><circle cx="38" cy="38" r="36"></circle></svg>
-                        <div class="number"><p>92%</p></div>
-                    </div>
-                    <small class="text-muted">Last 24 Hours</small>
-                </div>
-            </div>
-
-            <div class="timetable" id="timetable">
-                <div>
-                    <span id="prevDay">&lt;</span>
-                    <h2>Today's Timetable</h2>
-                    <span id="nextDay">&gt;</span>
-                </div>
-                <span class="closeBtn" onclick="timeTableAll()">X</span>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Time</th>
-                            <th>Room No.</th>
-                            <th>Subject</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-            </div>
-        </main>
-
-        <div class="right">
-            <div class="announcements">
-                <h2>Announcements</h2>
-                <div class="updates">
-                    <div class="message">
-                        <p> <b>Academic</b> Summer training internship with Live Projects.</p>
-                        <small class="text-muted">2 Minutes Ago</small>
-                    </div>
-                    <div class="message">
-                        <p> <b>Co-curricular</b> Global internship oportunity by Student organization.</p>
-                        <small class="text-muted">10 Minutes Ago</small>
-                    </div>
-                    <div class="message">
-                        <p> <b>Examination</b> Instructions for Mid Term Examination.</p>
-                        <small class="text-muted">Yesterday</small>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <i class="bi bi-graph-up text-primary mb-3" style="font-size: 2rem;"></i>
+                            <h5 class="card-title">Results-Driven</h5>
+                            <p class="card-text">We focus on delivering solutions that drive growth and efficiency for your business.</p>
+                        </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </section>
 
-            <div class="leaves">
-                <h2>Teachers on leave</h2>
-                <div class="teacher">
-                    <div class="profile-photo"><img src="./images/profile-2.jpeg" alt=""></div>
-                    <div class="info">
-                        <h3>The Professor</h3>
-                        <small class="text-muted">Full Day</small>
-                    </div>
-                </div>
-                <div class="teacher">
-                    <div class="profile-photo"><img src="./images/profile-3.jpg" alt=""></div>
-                    <div class="info">
-                        <h3>Lisa Manobal</h3>
-                        <small class="text-muted">Half Day</small>
-                    </div>
-                </div>
-                <div class="teacher">
-                    <div class="profile-photo"><img src="./images/profile-4.jpg" alt=""></div>
-                    <div class="info">
-                        <h3>Himanshu Jindal</h3>
-                        <small class="text-muted">Full Day</small>
-                    </div>
+    <section class="section bg-light">
+        <div class="container">
+            <h2 class="text-center mb-5">Subscribe to Our Newsletter</h2>
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <form id="newsletter-form" class="d-flex">
+                        <input type="email" class="form-control me-2" placeholder="Enter your email" required>
+                        <button type="submit" class="btn btn-primary">Subscribe</button>
+                    </form>
                 </div>
             </div>
-
         </div>
-    </div>
+    </section>
 
-    <script src="timeTable.js"></script>
-    <script src="app.js"></script>
+    <footer class="bg-dark text-light py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <p>&copy; 2023 TechSolutions. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <a href="#" class="social-icon"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="social-icon"><i class="bi bi-twitter"></i></a>
+                    <a href="#" class="social-icon"><i class="bi bi-linkedin"></i></a>
+                    <a href="#" class="social-icon"><i class="bi bi-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./JS/script.js"></script>
 </body>
 </html>
