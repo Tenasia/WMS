@@ -1,0 +1,71 @@
+body {
+    padding-top: 56px;
+}
+
+.section {
+    padding: 60px 0;
+}
+
+.bg-light {
+    background-color: #f8f9fa;
+}
+
+.social-icon {
+    font-size: 24px;
+    margin-right: 10px;
+    color: #007bff;
+    transition: color 0.3s ease;
+}
+
+.social-icon:hover {
+    color: #0056b3;
+}
+
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+.navbar {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    font-weight: bold;
+}
+
+.nav-link {
+    font-weight: 500;
+}
+
+.nav-link:hover {
+    color: #007bff !important;
+}
+
+footer {
+    margin-top: 2rem;
+}
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2rem;
+    }
+
+    .section {
+        padding: 40px 0;
+    }
+}
