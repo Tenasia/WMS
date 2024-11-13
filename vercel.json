@@ -1,0 +1,11 @@
+{
+    "builds": [
+      {
+        "src": "wwwroot/**/*",
+        "use": "@vercel/static-build",
+        "config": {
+          "distDir": "bin/Release/net8.0/publish/wwwroot"
+        }
+      }
+    ]
+  }
