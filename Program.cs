@@ -3,6 +3,8 @@ using System.IO;
 using System.Net;
 using System.Text;
 using MySql.Data.MySqlClient; // Import the MySQL library
+using System.Collections.Generic; // For List<T>
+using System.Text.Json; // For JSON serialization
 
 class Program
 {
@@ -18,82 +20,126 @@ class Program
         // MySQL database connection parameters
         string connectionString = "Server=localhost;Database=wms01;User ID=root;Password=Akosiwilliam47;Port=3306;";
 
-        // Establishing a connection to the database
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        while (true)
         {
-            connection.Open();
-            Console.WriteLine("Connected to the database.");
+            // Wait for an incoming request
+            HttpListenerContext context = listener.GetContext();
+            HttpListenerRequest request = context.Request;
+            HttpListenerResponse response = context.Response;
 
-            while (true)
+            string filePath = request.Url.AbsolutePath.TrimStart('/');
+
+            // Check if the request is for an API endpoint
+            if (filePath == "api/users")
             {
-                // Wait for an incoming request
-                HttpListenerContext context = listener.GetContext();
-                HttpListenerRequest request = context.Request;
-                HttpListenerResponse response = context.Response;
+                // Fetch data from the database
+                List<Dictionary<string, object>> users = FetchUsersFromDatabase(connectionString);
+                // Convert the result to JSON
+                string jsonResponse = JsonSerializer.Serialize(users);
 
-                // Determine the file path based on the request URL
-                string filePath = request.Url.AbsolutePath.TrimStart('/');
-
-                // Serve Index.html by default if no specific file is requested
-                if (string.IsNullOrEmpty(filePath))
-                {
-                    filePath = "Views/index.html";
-                }
-                else if (filePath == "Shared/header.html")
-                {
-                    filePath = "Shared/header.html";
-                }
-                else
-                {
-                    // Handle static files (e.g., CSS, JS)
-                    if (filePath.StartsWith("CSS/")) // For CSS files
-                    {
-                        filePath = Path.Combine("CSS", filePath.Substring(4)); // Removes "CSS/" from the path
-                    }
-                    else if (filePath.StartsWith("JS/")) // For JavaScript files
-                    {
-                        filePath = Path.Combine("JS", filePath.Substring(3)); // Removes "JS/" from the path
-                    }
-                    else
-                    {
-                        filePath = Path.Combine("Views", filePath); // Default to Views folder
-                    }
-                }
-
-                // Read the file content
-                string content;
-                if (File.Exists(filePath))
-                {
-                    content = File.ReadAllText(filePath);
-                    response.StatusCode = (int)HttpStatusCode.OK;
-
-                    // Set the content type based on the file extension
-                    string extension = Path.GetExtension(filePath);
-                    if (extension == ".css")
-                    {
-                        response.ContentType = "text/css";
-                    }
-                    else if (extension == ".html")
-                    {
-                        response.ContentType = "text/html";
-                    }
-                    else if (extension == ".js") // For JavaScript files
-                    {
-                        response.ContentType = "application/javascript";
-                    }
-                }
-                else
-                {
-                    content = "<h1>404 - Not Found</h1>";
-                    response.StatusCode = (int)HttpStatusCode.NotFound;
-                }
-
-                // Send the response
-                byte[] buffer = Encoding.UTF8.GetBytes(content);
+                // Return the JSON response
+                byte[] buffer = Encoding.UTF8.GetBytes(jsonResponse);
+                response.ContentType = "application/json";
                 response.ContentLength64 = buffer.Length;
+                response.StatusCode = (int)HttpStatusCode.OK;
                 response.OutputStream.Write(buffer, 0, buffer.Length);
                 response.OutputStream.Close();
             }
+            else
+            {
+                // Handle static file serving as in the original code
+                HandleStaticFiles(request, response, filePath);
+            }
         }
+    }
+
+    // Fetch data from the database
+    static List<Dictionary<string, object>> FetchUsersFromDatabase(string connectionString)
+    {
+        List<Dictionary<string, object>> users = new List<Dictionary<string, object>>();
+
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            connection.Open();
+            string query = "SELECT id, username, password FROM wms_users";
+
+            using (MySqlCommand command = new MySqlCommand(query, connection))
+            using (MySqlDataReader reader = command.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    // Create a dictionary for each row
+                    Dictionary<string, object> row = new Dictionary<string, object>();
+
+                    for (int i = 0; i < reader.FieldCount; i++)
+                    {
+                        row[reader.GetName(i)] = reader.GetValue(i);
+                    }
+
+                    users.Add(row);
+                }
+            }
+        }
+
+        return users;
+    }
+
+    // Handle static file serving
+    static void HandleStaticFiles(HttpListenerRequest request, HttpListenerResponse response, string filePath)
+    {
+        if (string.IsNullOrEmpty(filePath))
+        {
+            filePath = "Views/index.html";
+        }
+        else if (filePath == "Shared/header.html")
+        {
+            filePath = "Shared/header.html";
+        }
+        else
+        {
+            if (filePath.StartsWith("CSS/"))
+            {
+                filePath = Path.Combine("CSS", filePath.Substring(4));
+            }
+            else if (filePath.StartsWith("JS/"))
+            {
+                filePath = Path.Combine("JS", filePath.Substring(3));
+            }
+            else
+            {
+                filePath = Path.Combine("Views", filePath);
+            }
+        }
+
+        string content;
+        if (File.Exists(filePath))
+        {
+            content = File.ReadAllText(filePath);
+            response.StatusCode = (int)HttpStatusCode.OK;
+
+            string extension = Path.GetExtension(filePath);
+            if (extension == ".css")
+            {
+                response.ContentType = "text/css";
+            }
+            else if (extension == ".html")
+            {
+                response.ContentType = "text/html";
+            }
+            else if (extension == ".js")
+            {
+                response.ContentType = "application/javascript";
+            }
+        }
+        else
+        {
+            content = "<h1>404 - Not Found</h1>";
+            response.StatusCode = (int)HttpStatusCode.NotFound;
+        }
+
+        byte[] buffer = Encoding.UTF8.GetBytes(content);
+        response.ContentLength64 = buffer.Length;
+        response.OutputStream.Write(buffer, 0, buffer.Length);
+        response.OutputStream.Close();
     }
 }
