@@ -4,7 +4,8 @@ using System.Net;
 using System.Text;
 using MySql.Data.MySqlClient; // Import the MySQL library
 using System.Collections.Generic; // For List<T>
-using System.Text.Json; // For JSON serialization
+using System.Text.Json;
+using System.Net.Mime; // For JSON serialization
 
 class Program
 {
@@ -105,50 +106,73 @@ class Program
             {
                 filePath = Path.Combine("JS", filePath.Substring(3));
             }
+            else if (filePath.StartsWith("Images/"))
+            {
+                filePath = Path.Combine("Images", filePath.Substring(7));
+            }
             else
             {
                 filePath = Path.Combine("Views", filePath);
             }
         }
 
-        string content;
         if (File.Exists(filePath))
         {
-            content = File.ReadAllText(filePath);
+            string extension = Path.GetExtension(filePath).ToLower();
+            byte[] buffer;
 
-            if (Path.GetExtension(filePath) == ".html")
+            if (extension == ".html")
             {
+                // Read and combine header and footer for HTML files
+                string content = File.ReadAllText(filePath);
                 string header = File.ReadAllText("Views/Shared/header.html");
                 string footer = File.ReadAllText("Views/Shared/footer.html");
-
                 content = header + content + footer;
-            }
-            
-            response.StatusCode = (int)HttpStatusCode.OK;
-
-            string extension = Path.GetExtension(filePath);
-            if (extension == ".css")
-            {
-                response.ContentType = "text/css";
-            }
-            else if (extension == ".html")
-            {
+                buffer = Encoding.UTF8.GetBytes(content);
                 response.ContentType = "text/html";
+            }
+            else if (extension == ".css")
+            {
+                buffer = File.ReadAllBytes(filePath);
+                response.ContentType = "text/css";
             }
             else if (extension == ".js")
             {
+                buffer = File.ReadAllBytes(filePath);
                 response.ContentType = "application/javascript";
             }
+            else if (extension == ".jpg" || extension == ".jpeg")
+            {
+                buffer = File.ReadAllBytes(filePath);
+                response.ContentType = "image/jpeg";
+            }
+            else if (extension == ".png")
+            {
+                buffer = File.ReadAllBytes(filePath);
+                response.ContentType = "image/png";
+            }
+            else
+            {
+                buffer = File.ReadAllBytes(filePath);
+                response.ContentType = "application/octet-stream"; // Generic binary content
+            }
+
+            response.StatusCode = (int)HttpStatusCode.OK;
+            response.ContentLength64 = buffer.Length;
+            response.OutputStream.Write(buffer, 0, buffer.Length);
         }
         else
         {
-            content = "<h1>404 - Not Found</h1>";
+            // File not found
+            string content = "<h1>404 - Not Found</h1>";
+            byte[] buffer = Encoding.UTF8.GetBytes(content);
+            response.ContentType = "text/html";
             response.StatusCode = (int)HttpStatusCode.NotFound;
+            response.ContentLength64 = buffer.Length;
+            response.OutputStream.Write(buffer, 0, buffer.Length);
         }
 
-        byte[] buffer = Encoding.UTF8.GetBytes(content);
-        response.ContentLength64 = buffer.Length;
-        response.OutputStream.Write(buffer, 0, buffer.Length);
         response.OutputStream.Close();
     }
+
 }
