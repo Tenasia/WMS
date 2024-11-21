@@ -115,6 +115,15 @@ class Program
         if (File.Exists(filePath))
         {
             content = File.ReadAllText(filePath);
+
+            if (Path.GetExtension(filePath) == ".html")
+            {
+                string header = File.ReadAllText("Views/Shared/header.html");
+                string footer = File.ReadAllText("Views/Shared/footer.html");
+
+                content = header + content + footer;
+            }
+            
             response.StatusCode = (int)HttpStatusCode.OK;
 
             string extension = Path.GetExtension(filePath);
